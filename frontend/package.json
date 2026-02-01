@@ -1,6 +1,5 @@
 {
   "name": "solo-leveling-frontend",
-  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
