@@ -3,7 +3,7 @@
 const API_URL =
   import.meta.env.VITE_API_URL ||
   (import.meta.env.PROD
-    ? 'https://solo-leveling-game-seven.vercel.app//api' // Замените на ваш Railway URL
+    ? 'https://solo-leveling-game-production.up.railway.app/api' // Замените на ваш Railway URL
     : 'http://localhost:5001/api');
 
 class ApiService {
