@@ -1,6 +1,9 @@
 // frontend/src/api.js
-// URL бекенда на порту 5001
-const API_URL = 'http://localhost:5001/api';
+// URL бекенда - используем переменную окружения или дефолтное значение
+const API_URL = import.meta.env.VITE_API_URL || 
+  (import.meta.env.PROD 
+    ? 'https://your-railway-app.railway.app/api'  // Замените на ваш Railway URL
+    : 'http://localhost:5001/api');
 
 class ApiService {
   constructor() {
