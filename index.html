@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Прокачка персонажа в реальной жизни</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap">
+    <link rel="stylesheet" href="/style.css">
+    
+</head>
+<body>
+    <div class="watermark">Создано <a href="https://www.instagram.com/_lap_tev_?igsh=azZhN3I0Yzd4MmZt&utm_source=qr" target="_blank">LAPTEV</a></div>
+    
+    <!-- Переключатель темы -->
+    <div class="theme-toggle" id="theme-toggle">
+        <i class="fas fa-moon"></i>
+    </div>
+
+    <!-- Кнопка поддержки автора -->
+    <a href="https://www.donationalerts.com/r/lap_tev" target="_blank" class="support-btn">
+        <i class="fas fa-heart"></i>
+        Поддержать автора
+    </a>
+    
+    <!-- NEW: Notifications container -->
+    <div id="notifications-container"></div>
+    
+    <!-- NEW: Информация о пользователе -->
+    <div class="user-info" id="user-info" style="display: none;">
+        <i class="fas fa-user"></i>
+        <span>ID: <span class="user-id" id="user-id-display"></span></span>
+        <button class="logout-btn" id="logout-btn" title="Выйти">
+            <i class="fas fa-sign-out-alt"></i>
+        </button>
+    </div>
+    
+    <div class="wallet" id="wallet">
+        <i class="fas fa-coins" style="color: gold;"></i>
+        <span id="coins">0</span> L
+        <div class="coin-tooltip">Внутриигровая валюта для покупки сундуков</div>
+    </div>
+    
+    <div class="container">
+        <!-- Header section -->
+        <header>
+            <h1>Прокачка персонажа в реальной жизни</h1>
+            <p class="subtitle">Стань лучшей версией себя через игровую механику</p>
+            <button id="start-btn" class="btn">Начать прокачку</button>
+        </header>
+        
+        <!-- Воскресное уведомление -->
+        <div id="sunday-notice" class="sunday-notice" style="display: none;">
+            <i class="fas fa-star"></i> Сегодня воскресенье! Все награды и штрафы увеличены вдвое <i class="fas fa-star"></i>
+        </div>
+        
+        <!-- Еженедельный отчет -->
+        <div id="week-report" class="week-report" style="display: none;">
+            <h3>Ваш недельный отчет</h3>
+            <div id="week-report-content"></div>
+        </div>
+        
+        <!-- Stats section -->
+        <section id="stats-section" class="section">
+            <h2 class="section-title">Уровень и Характеристики</h2>
+            
+            <div class="level-container" id="level-container">
+                <div id="level" class="level">Уровень 1</div>
+                <div class="level-tooltip">Нажмите, чтобы узнать прогресс</div>
+                <div class="level-progress-container">
+                    <div class="level-progress-bar-container" id="level-progress-container">
+                        <div id="level-progress-bar" class="level-progress-bar" style="width: 0%;"></div>
+                    </div>
+                </div>
+                <div id="status-indicator" class="status-indicator" style="display: none;"></div>
+                <div id="profession-indicator" class="profession-indicator" style="display: none;"></div>
+            </div>
+            
+            <div class="attributes-grid">
+                <div id="strength-card" class="attribute-card strength">
+                    <div class="attribute-icon">
+                        <i class="fas fa-dumbbell"></i>
+                    </div>
+                    <div class="attribute-name">Сила</div>
+                    <div class="attribute-value">1 / 500</div>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 0.2%;"></div>
+                    </div>
+                </div>
+                
+                <div id="agility-card" class="attribute-card agility">
+                    <div class="attribute-icon">
+                        <i class="fas fa-running"></i>
+                    </div>
+                    <div class="attribute-name">Ловкость</div>
+                    <div class="attribute-value">1 / 500</div>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 0.2%;"></div>
+                    </div>
+                </div>
+                
+                <div id="perception-card" class="attribute-card perception">
+                    <div class="attribute-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <div class="attribute-name">Восприятие</div>
+                    <div class="attribute-value">1 / 500</div>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 0.2%;"></div>
+                    </div>
+                </div>
+                
+                <div id="stamina-card" class="attribute-card stamina">
+                    <div class="attribute-icon">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <div class="attribute-name">Выносливость</div>
+                    <div class="attribute-value">1 / 500</div>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 0.2%;"></div>
+                    </div>
+                </div>
+                
+                <div id="intelligence-card" class="attribute-card intelligence">
+                    <div class="attribute-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <div class="attribute-name">Интеллект</div>
+                    <div class="attribute-value">1 / 500</div>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 0.2%;"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Achievements section -->
+        <section class="section">
+            <h2 class="section-title">Достижения</h2>
+            
+            <div class="achievements-container">
+                <!-- Правила прокачки (заменено Дисциплину) -->
+                <div class="achievement-card" id="rules-achievement">
+                    <div class="achievement-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="achievement-title">Правила прокачки</div>
+                    <div class="achievement-desc" id="rules-desc">
+                        Нажмите, чтобы прочитать правила платформы
+                    </div>
+                </div>
+                
+                <!-- Status achievement -->
+                <div class="achievement-card locked" id="status-achievement">
+                    <div class="achievement-icon">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <div class="achievement-title">Статус</div>
+                    <div class="achievement-desc">
+                        Доступен на 50 уровне. Выберите свой уникальный статус.
+                    </div>
+                    <div class="locked-label">50 УР</div>
+                </div>
+                
+                <!-- Profession achievement -->
+                <div class="achievement-card locked" id="profession-achievement">
+                    <div class="achievement-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <div class="achievement-title">Профессия</div>
+                    <div class="achievement-desc">
+                        Доступна на 75 уровне. Определите вашу специализацию.
+                    </div>
+                    <div class="locked-label">75 УР</div>
+                </div>
+                
+                <!-- Master achievement -->
+                <div class="achievement-card locked" id="master-achievement">
+                    <div class="achievement-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <div class="achievement-title">Мастер всех стихий</div>
+                    <div class="achievement-desc">
+                        Достигните 150 уровня. Максимальное мастерство!
+                    </div>
+                    <div class="locked-label">150 УР</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Daily Quests section -->
+        <section id="quests-section" class="section quests-section">
+            <div class="quests-header">
+                <div class="quests-title-container">
+                    <h2 class="section-title">Ежедневные квесты</h2>
+                    <button id="replace-quest-btn" class="replace-quest-btn" title="Заменить квест">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                    <!-- NEW: Кнопка добавления своего квеста -->
+                    <button id="add-custom-quest-btn" class="add-custom-quest-btn" title="Добавить свой квест">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="quests-grid" id="quests-container">
+                <!-- Quests will be generated here -->
+            </div>
+            
+            <div class="timer">
+                Новые квесты через: <span id="timer">23:59:45</span>
+            </div>
+            
+            <!-- Сообщение о выполнении всех квестов -->
+            <div id="completed-all" class="completed-all" style="display: none;">
+                <i class="fas fa-trophy"></i>
+                <h3>Поздравляем с выполнением всех квестов за сегодня!</h3>
+                <p>Вы стали на 1% лучше, чем вчера. Так держать!</p>
+            </div>
+        </section>
+        
+        <!-- Weekly Quest section -->
+        <section id="weekly-quest-section" class="section weekly-quest-section">
+            <h2 class="section-title">Еженедельный вызов</h2>
+            
+            <div class="weekly-quest-card" id="weekly-quest-card">
+                <div class="weekly-quest-title">
+                    <i class="fas fa-star"></i>
+                    <span id="weekly-quest-title">Загрузка...</span>
+                </div>
+                <div class="weekly-quest-desc" id="weekly-quest-desc"></div>
+                <div class="weekly-quest-reward">
+                    <i class="fas fa-plus-circle"></i> Награда: +2 ко всем характеристикам
+                    <span class="coin-icon">+3 L</span>
+                </div>
+                <button class="weekly-quest-btn" id="weekly-quest-btn">Выполнить</button>
+            </div>
+            
+            <div class="weekly-timer">
+                Новый вызов через: <span id="weekly-timer">6д 23:59:45</span>
+            </div>
+        </section>
+        
+        <!-- Shop section -->
+        <section id="shop-section" class="section shop-section">
+            <h2 class="section-title">Магазин</h2>
+            <p class="text-center" style="margin-bottom: 20px;">Используй накопленные монеты для покупки сундуков</p>
+            
+            <div class="shop-grid" id="shop-grid">
+                <div class="shop-item common" data-type="common">
+                    <div class="chest-icon">
+                        <i class="fas fa-box"></i>
+                        <div class="chest-coins">
+                            <span class="coin-float">🪙</span>
+                            <span class="coin-float">🪙</span>
+                            <span class="coin-float">🪙</span>
+                            <span class="coin-float">🪙</span>
+                        </div>
+                    </div>
+                    <div class="shop-title">Обычный сундук</div>
+                    <div class="shop-price">
+                        <span>10</span>
+                        <div class="coin"></div>
+                    </div>
+                    <button class="shop-btn" data-price="10">Купить</button>
+                </div>
+                
+                <div class="shop-item rare" data-type="rare">
+                    <div class="chest-icon">
+                        <i class="fas fa-box-open"></i>
+                        <div class="chest-coins">
+                            <span class="coin-float">🪙</span>
+                            <span class="coin-float">🪙</span>
+                            <span class="coin-float">🪙</span>
+                            <span class="coin-float">🪙</span>
+                            <span class="coin-float">🪙</span>
+                        </div>
+                    </div>
+                    <div class="shop-title">Редкий сундук</div>
+                    <div class="shop-price">
+                        <span>25</span>
+                        <div class="coin"></div>
+                    </div>
+                    <button class="shop-btn" data-price="25">Купить</button>
+                </div>
+                
+                <div class="shop-item epic" data-type="epic">
+                    <div class="chest-icon">
+                        <i class="fas fa-archive"></i>
+                        <div class="chest-coins">
+                            <span class="coin-float">🪙</span>
+                            <span class="coin-float">🪙</span>
+                            <span class="coin-float">🪙</span>
+                            <span class="coin-float">🪙</span>
+                            <span class="coin-float">🪙</span>
+                            <span class="coin-float">🪙</span>
+                        </div>
+                    </div>
+                    <div class="shop-title">Эпический сундук</div>
+                    <div class="shop-price">
+                        <span>50</span>
+                        <div class="coin"></div>
+                    </div>
+                    <button class="shop-btn" data-price="50">Купить</button>
+                </div>
+                
+                <div class="shop-item legendary" data-type="legendary">
+                    <div class="chest-icon">
+                        <i class="fas fa-gem"></i>
+                        <div class="chest-coins">
+                            <span class="coin-float">🪙</span>
+                            <span class="coin-float">🪙</span>
+                            <span class="coin-float">🪙</span>
+                            <span class="coin-float">🪙</span>
+                            <span class="coin-float">🪙</span>
+                            <span class="coin-float">🪙</span>
+                            <span class="coin-float">🪙</span>
+                        </div>
+                    </div>
+                    <div class="shop-title">Легендарный сундук</div>
+                    <div class="shop-price">
+                        <span>100</span>
+                        <div class="coin"></div>
+                    </div>
+                    <button class="shop-btn" data-price="100">Купить</button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- NEW: Events feed section -->
+        <section id="events-section" class="section">
+            <h2 class="section-title">Лента событий</h2>
+            <div id="events-list" class="events-list">
+                <!-- Events will be added here -->
+            </div>
+        </section>
+        
+        <footer class="footer">
+            <p>Прокачка персонажа в реальной жизни - система личностного роста</p>
+            <div class="copyright">Разработано <a href="https://www.instagram.com/_lap_tev_?igsh=azZhN3I0Yzd4MmZt&utm_source=qr" target="_blank">LAPTEV</a> © 2023</div>
+        </footer>
+    </div>
+    
+    <!-- NEW: Модальное окно входа/регистрации -->
+    <div class="modal login-modal" id="login-modal">
+        <div class="modal-content">
+            <h3 class="modal-title">Добро пожаловать!</h3>
+            <p class="modal-text">Введите кодовое слово для доступа к вашему прогрессу:</p>
+            
+            <div class="login-form">
+                <input type="text" id="user-code" class="login-input" placeholder="Введите кодовое слово (минимум 4 символа)" maxlength="20">
+                <button class="btn" id="login-btn">Продолжить</button>
+                <button class="btn" id="generate-code-btn">Создать новое слово</button>
+            </div>
+            
+            <p class="login-help">
+                Запомните это слово! Оно будет вашим ключом для доступа к прогрессу на любом устройстве.
+                <br><br>
+                <strong>Совет:</strong> Используйте комбинацию из слов и цифр, которую легко запомнить.
+            </p>
+        </div>
+    </div>
+    
+    <!-- Modals -->
+    <div class="modal" id="replace-confirm-modal">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <h3 class="modal-title">Подтверждение замены</h3>
+            <p class="modal-text" id="replace-modal-text">Изменить квест можно только один раз в сутки. Вы уверены, что хотите заменить квест?</p>
+            <div class="modal-options">
+                <button class="btn" id="confirm-replace-btn">Да, заменить</button>
+                <button class="btn" id="cancel-replace-btn">Отмена</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- NEW: Модальное окно для создания своего квеста -->
+    <div class="modal" id="custom-quest-modal">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <h3 class="modal-title">Создание своего квеста</h3>
+            <div class="modal-form">
+                <div class="form-group">
+                    <label class="form-label" for="custom-quest-title">Название квеста:</label>
+                    <input type="text" id="custom-quest-title" class="form-input" placeholder="Введите название квеста" maxlength="50">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="custom-quest-desc">Описание квеста:</label>
+                    <textarea id="custom-quest-desc" class="form-textarea" placeholder="Опишите детали квеста" maxlength="200"></textarea>
+                </div>
+                <div class="modal-text">
+                    <p>Награда за выполнение: +1 ко всем характеристикам и +1 монета</p>
+                </div>
+            </div>
+            <div class="modal-options">
+                <button class="btn" id="save-custom-quest-btn">Создать квест</button>
+                <button class="btn" id="cancel-custom-quest-btn">Отмена</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- NEW: Модальное окно подтверждения еженедельного квеста -->
+    <div class="modal" id="weekly-confirm-modal">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <h3 class="modal-title">Подтверждение выполнения</h3>
+            <p id="weekly-confirm-message" class="modal-text">Вы подтверждаете, что завершили еженедельный квест?</p>
+            <div class="modal-options">
+                <button class="btn" id="confirm-weekly-btn">Да, подтверждаю</button>
+                <button class="btn" id="cancel-weekly-btn">Отмена</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal" id="status-modal">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <h3 class="modal-title">Выберите ваш статус</h3>
+            <p class="modal-text">Поздравляем! Вы достигли 50 уровня и можете выбрать свой статус.</p>
+            <div class="modal-options">
+                <button class="modal-option" data-status="prime">В прайме</button>
+                <button class="modal-option" data-status="relaxed">На расслабоне</button>
+                <button class="modal-option" data-status="in-the-zone">Вошел во вкус</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal" id="profession-modal">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <h3 class="modal-title">Поздравляем с профессией!</h3>
+            <p id="profession-message" class="modal-text"></p>
+            <button class="btn" id="close-profession-modal">Понятно</button>
+        </div>
+    </div>
+    
+    <div class="modal" id="punishment-modal">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <h3 class="modal-title">Наказание за невыполнение</h3>
+            <p id="punishment-message" class="modal-text"></p>
+            <button class="btn" id="close-punishment-modal">Понятно</button>
+        </div>
+    </div>
+    
+    <div class="modal" id="confirm-quest-modal">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <h3 class="modal-title">Подтверждение выполнения</h3>
+            <p id="confirm-quest-message" class="modal-text">Вы подтверждаете, что завершили этот квест?</p>
+            <div class="modal-options">
+                <button class="btn" id="confirm-quest-btn">Да, подтверждаю</button>
+                <button class="btn" id="cancel-quest-btn">Отмена</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Attribute Description Modal -->
+    <div class="modal" id="attribute-modal">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <h3 class="modal-title" id="attribute-modal-title">Описание характеристики</h3>
+            <p id="attribute-modal-desc" class="modal-text"></p>
+            <button class="btn" id="close-attribute-modal">Понятно</button>
+        </div>
+    </div>
+    
+    <!-- NEW: Rules Modal (заменяет Achievement Info Modal для правил) -->
+    <div class="modal" id="rules-modal">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <h3 class="modal-title">Правила платформы</h3>
+            <div class="modal-text" style="text-align: left; line-height: 1.6;">
+                <p><strong>Правила платформы:</strong></p>
+                <p>- Выполняйте ежедневные и еженедельные квесты, чтобы повышать характеристики и избегать наказания.</p>
+                <p>- Копите монеты и получайте за них секретные бонусы внутри сундуков.</p>
+                <p>- Поднимайте уровень и становитесь лучшей версией себя.</p>
+                <p><br></p>
+                <p><em>Желаю удачи. ©LAPTEV</em></p>
+            </div>
+            <button class="btn" id="close-rules-modal">Понятно</button>
+        </div>
+    </div>
+
+    <!-- Achievement Info Modal -->
+    <div class="modal" id="achievement-info-modal">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <h3 class="modal-title" id="achievement-modal-title">Информация о достижении</h3>
+            <p id="achievement-modal-desc" class="modal-text"></p>
+            <button class="btn" id="close-achievement-modal">Понятно</button>
+        </div>
+    </div>
+
+    <!-- Shop Item Modal -->
+    <div class="modal" id="shop-item-modal">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <h3 class="modal-title" id="shop-item-title"></h3>
+            <p class="modal-text" id="shop-item-content"></p>
+            <div class="modal-text">Цена: <span id="shop-item-price" class="coin-icon"></span></div>
+            <div class="modal-options">
+                <button class="btn" id="confirm-buy-btn">Купить</button>
+                <button class="btn" id="cancel-buy-btn">Отмена</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Level Info Modal -->
+    <div class="modal" id="level-info-modal">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <h3 class="modal-title">Прогресс уровня</h3>
+            <p id="level-info-content" class="modal-text"></p>
+            <button class="btn" id="close-level-modal">Понятно</button>
+        </div>
+    </div>
+
+    
+    <script type="module" src="/src/main.js"></script>
+</body>
