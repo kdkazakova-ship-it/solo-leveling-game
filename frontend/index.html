@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Прокачка персонажа в реальной жизни</title>
-    <base href="solo-leveling-game">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap">
-    <<link rel="stylesheet" href="public/style.css">
+    <link rel="stylesheet" href="/style.css">
     
 </head>
 <body>
@@ -341,24 +340,38 @@
             <div class="copyright">Разработано <a href="https://www.instagram.com/_lap_tev_?igsh=azZhN3I0Yzd4MmZt&utm_source=qr" target="_blank">LAPTEV</a> © 2023</div>
         </footer>
     </div>
-    
-    <!-- NEW: Модальное окно входа/регистрации -->
+
+    <!-- Модальное окно входа/регистрации -->
     <div class="modal login-modal" id="login-modal">
         <div class="modal-content">
-            <h3 class="modal-title">Добро пожаловать!</h3>
-            <p class="modal-text">Введите кодовое слово для доступа к вашему прогрессу:</p>
-            
-            <div class="login-form">
-                <input type="text" id="user-code" class="login-input" placeholder="Введите кодовое слово (минимум 4 символа)" maxlength="20">
-                <button class="btn" id="login-btn">Продолжить</button>
-                <button class="btn" id="generate-code-btn">Создать новое слово</button>
+            <h3 class="modal-title">Вход / Регистрация</h3>
+
+            <div class="login-form" id="login-form">
+                <div class="form-tabs">
+                    <button class="form-tab active" data-tab="login">Вход</button>
+                    <button class="form-tab" data-tab="register">Регистрация</button>
+                </div>
+
+                <!-- Форма входа -->
+                <div class="tab-content active" id="login-tab">
+                    <input type="email" id="login-email" class="login-input" placeholder="Email" required>
+                    <input type="password" id="login-password" class="login-input" placeholder="Пароль" required>
+                    <button class="btn" id="login-submit-btn">Войти</button>
+                </div>
+
+                <!-- Форма регистрации -->
+                <div class="tab-content" id="register-tab">
+                    <input type="text" id="register-username" class="login-input" placeholder="Имя пользователя" required>
+                    <input type="email" id="register-email" class="login-input" placeholder="Email" required>
+                    <input type="password" id="register-password" class="login-input" placeholder="Пароль (мин. 6 символов)" required>
+                    <input type="password" id="register-confirm-password" class="login-input" placeholder="Подтвердите пароль" required>
+                    <button class="btn" id="register-submit-btn">Зарегистрироваться</button>
+                </div>
+
+                <p class="login-help">
+                    Ваш прогресс будет сохраняться в облаке и синхронизироваться на всех устройствах.
+                </p>
             </div>
-            
-            <p class="login-help">
-                Запомните это слово! Оно будет вашим ключом для доступа к прогрессу на любом устройстве.
-                <br><br>
-                <strong>Совет:</strong> Используйте комбинацию из слов и цифр, которую легко запомнить.
-            </p>
         </div>
     </div>
     
@@ -518,5 +531,5 @@
     </div>
 
 
-    <script src="src/main.js"></script>
+    <script type="module" src="/src/main.js"></script>
 </body>

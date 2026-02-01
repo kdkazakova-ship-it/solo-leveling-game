@@ -1813,4 +1813,59 @@ h1::after {
         padding: 15px 10px;
     }
 }
-    
+
+
+
+/* Стили для авторизации */
+.form-tabs {
+    display: flex;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--accent);
+}
+
+.form-tab {
+    flex: 1;
+    padding: 10px;
+    background: none;
+    border: none;
+    color: var(--light);
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.form-tab.active {
+    background: var(--accent);
+    color: var(--dark);
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.login-input {
+    padding: 12px;
+    border-radius: 10px;
+    border: 2px solid var(--accent);
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 1rem;
+    transition: all 0.3s;
+}
+
+.light-theme .login-input {
+    background: rgba(255, 255, 255, 0.9);
+    color: #1a1a2e;
+    border: 2px solid rgba(69, 183, 209, 0.8);
+}
+
+.login-input:focus {
+    outline: none;
+    box-shadow: 0 0 10px var(--accent);
+}
